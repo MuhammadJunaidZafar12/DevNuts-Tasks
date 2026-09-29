@@ -1,5 +1,5 @@
 export const dashboardSeed = {
-  title: 'Student Success Overview',
+  title: 'KPI Dashboard',
   years: [2022, 2023, 2024, 2025, 2026],
   filters: {
     academicPeriod: 'This Year vs Last Year',

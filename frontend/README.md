@@ -1,57 +1,124 @@
-# Northstar Student Analytics Dashboard
+# Northstar Analytics Frontend
 
-This React application recreates the supplied education analytics dashboard. It is a responsive, read-only admin experience for understanding applications, enrollment, demographics, and retention signals.
-## What Was Implemented
+This folder contains the React frontend for the student analytics dashboard. It is responsible for rendering the UI, fetching dashboard data from the backend, and displaying institutional metrics in a clean, presentation-ready format.
 
-- Navigation for overview, applications, enrollment, student profile, and retention.
-- Live-data status and an export-to-print button.
-- Filters for comparison period, academic year, and major.
-- KPI cards for applications, admission rate, top major, total enrollment, and annual retention.
-- Grouped bar chart for applications by major and year.
-- Donut charts for ethnicity, gender, student type, and domicile.
-- Termination reasons with proportional bars.
-- Loading and API error states.
-- Responsive desktop, tablet, and mobile layouts.
-- No authentication screens, as requested.
-## Installation and Run
+## Purpose
+
+The frontend recreates the design and structure of a university or institutional analytics dashboard based on a provided reference image. It focuses on:
+
+- KPI summary cards
+- application trend charts
+- demographic distribution visuals
+- retention and performance insights
+- clean, responsive layout for dashboard reporting
+
+## Tech Stack
+
+- React
+- Vite
+- Recharts for charts and graphs
+- CSS for styling and layout
+
+## Frontend Structure
+
+```text
+frontend/
+├── src/
+│   ├── App.jsx          # Main dashboard UI and data fetching logic
+│   ├── App.css          # Dashboard styling and layout
+│   ├── index.css        # Base styles and global resets
+│   ├── main.jsx         # Application entry point
+│   └── assets/          # Static assets
+├── index.html
+├── vite.config.js
+├── package.json
+├── eslint.config.js
+├── public/
+└── README.md
+```
+
+## Main Features
+
+### Dashboard Overview
+The main dashboard page displays:
+
+- Applications
+- Admission rate
+- Top major
+- Total enrollment
+- Annual retention
+
+### Interactive Filters
+The UI includes filters for:
+
+- year selection
+- major selection
+- comparison period
+
+These filters control which dataset is displayed on the analytics charts.
+
+### Visual Components
+The dashboard relies on Recharts to present:
+
+- bar chart for application trends by major
+- donut charts for demographic distribution
+- metric cards for key values
+- legends and labels for improved readability
+
+## Data Flow
+
+The frontend uses the backend API to fetch the dashboard dataset:
+
+```javascript
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+```
+
+Once the data is loaded, the app stores it in local state and renders the dashboard sections dynamically.
+
+## How the App Works
+
+1. The app loads dashboard data from `GET /api/dashboard`.
+2. It stores the response in React state.
+3. It calculates visible chart data based on the selected year and major.
+4. It renders KPI cards and chart sections with the fetched values.
+
+## Setup
+
+### Install dependencies
 
 ```bash
 cd frontend
 npm install
+```
+
+### Run in development mode
+
+```bash
 npm run dev
 ```
-Vite normally opens the app at `http://localhost:5173`. The frontend reads data from `http://localhost:3000/api/dashboard`.
 
-For another backend URL, create `frontend/.env`:
+### Build for production
+
+```bash
+npm run build
+```
+
+## Environment Variables
+
+Create a `.env` file in the `frontend` folder if needed:
 
 ```env
-Restart Vite after changing environment variables.
+VITE_API_URL=http://localhost:3000/api
+```
 
-## How It Works
+This value should point to the backend API so the dashboard can fetch live data.
 
-When `App` mounts, `useEffect` calls `GET /api/dashboard` and stores the MongoDB response in React state. Selecting `2026` narrows the trend chart to that year; selecting `Business` narrows it to the Business series. Filter options come from the backend `filters` object.
+## Notes
 
-Recharts `BarChart` uses `applicationTrends`, where each major is a series and `year` is the horizontal axis. `PieChart` converts values such as `{ "label": "Domestic", "value": 67 }` into a 67% / 33% donut.
-The desktop view uses a sidebar and multi-column grid. On small screens the sidebar becomes horizontal navigation, cards become two columns, and chart panels stack vertically.
+- The app is designed to match the dashboard reference closely.
+- It does not implement login or signup because the task specifically required a dashboard-only experience.
+- The UI is focused on clarity, readability, and institutional reporting rather than complex user flows.
 
-The production build is created in `dist/`. Set `VITE_API_URL` to the deployed Express API before building for production.
+## Summary
 
-## Technology
-
-React 19, Vite, Recharts, Express, Mongoose, and MongoDB Atlas.
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The frontend is the presentation layer of the analytics system. It consumes the backend data model and turns it into a polished, interactive dashboard that is suitable for monitoring institutional performance and key student metrics.
